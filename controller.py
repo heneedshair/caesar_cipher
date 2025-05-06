@@ -1,5 +1,4 @@
 from PyQt6.QtWidgets import QFileDialog, QColorDialog, QMessageBox
-from PyQt6.QtGui import QColor
 from model import CaesarCipherModel
 from view import CaesarCipherView
 from settings_dialog import CipherSettingsDialog
