@@ -1,11 +1,9 @@
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
     QTextEdit, QFileDialog, QColorDialog, QMenuBar, QMenu,
-    QSpinBox, QComboBox, QLabel
+    QLabel
 )
 from PyQt6.QtGui import QAction
-from PyQt6.QtGui import QColor
-from PyQt6.QtCore import Qt
 
 class CaesarCipherView(QWidget):
     def __init__(self):
@@ -38,20 +36,6 @@ class CaesarCipherView(QWidget):
         self.menuBar.addMenu(self.fileMenu)
         self.menuBar.addMenu(self.optionsMenu)
 
-        # Настройки шифра
-        self.shiftBox = QSpinBox()
-        self.shiftBox.setRange(1, 25)
-        self.shiftBox.setValue(3)
-
-        self.directionBox = QComboBox()
-        self.directionBox.addItems(["вправо", "влево"])
-
-        settingsLayout = QHBoxLayout()
-        settingsLayout.addWidget(QLabel("Сдвиг:"))
-        settingsLayout.addWidget(self.shiftBox)
-        settingsLayout.addWidget(QLabel("Направление:"))
-        settingsLayout.addWidget(self.directionBox)
-
         # Основной макет
         layout = QVBoxLayout(self)
         layout.setMenuBar(self.menuBar)
@@ -59,7 +43,6 @@ class CaesarCipherView(QWidget):
         layout.addWidget(self.inputText)
         layout.addWidget(QLabel("Результат:"))
         layout.addWidget(self.outputText)
-        layout.addLayout(settingsLayout)
 
         buttonsLayout = QHBoxLayout()
         buttonsLayout.addWidget(self.encryptButton)
