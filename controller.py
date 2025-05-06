@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import QFileDialog, QColorDialog, QMessageBox
+from PyQt6.QtGui import QColor
 from model import CaesarCipherModel
 from view import CaesarCipherView
 from settings_dialog import CipherSettingsDialog
@@ -7,6 +8,7 @@ class CaesarCipherController:
     def __init__(self, view: CaesarCipherView, model: CaesarCipherModel):
         self.view = view
         self.model = model
+        self.background_color = None
         self._connect_signals()
 
     def _connect_signals(self):
@@ -59,10 +61,17 @@ class CaesarCipherController:
     def change_background_color(self):
         color = QColorDialog.getColor()
         if color.isValid():
+            self.background_color = color
             self.view.setStyleSheet(f"background-color: {color.name()};")
 
     def open_settings_dialog(self):
-        dialog = CipherSettingsDialog(self.model.shift, self.model.direction)
+        dialog = CipherSettingsDialog(
+            current_shift=self.model.shift,
+            current_direction=self.model.direction,
+            background_color=self.background_color
+        )
+        if self.background_color:
+            dialog.setStyleSheet(f"background-color: {self.background_color.name()};")
         if dialog.exec():
             shift, direction = dialog.get_settings()
             self.model.set_parameters(shift, direction)
