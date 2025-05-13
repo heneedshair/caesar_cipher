@@ -10,6 +10,7 @@ class CaesarCipherController:
         self.background_color = None
         self._connect_signals()
         self.view.cipherDisk.set_shift(self.model.shift)
+        self.view.cipherDisk.mouseReleaseEvent = self._on_disk_released
 
     def _connect_signals(self):
         self.view.encryptButton.clicked.connect(self.encrypt)
@@ -76,3 +77,10 @@ class CaesarCipherController:
             shift, direction = dialog.get_settings()
             self.model.set_parameters(shift, direction)
             self.view.cipherDisk.set_shift(shift)
+
+    def _on_disk_released(self, event):
+        # Получить shift с диска
+        shift = self.view.cipherDisk.get_shift()
+        self.model.set_parameters(shift, self.model.direction)
+        self.view.cipherDisk.set_shift(shift)  # зафиксировать визуально
+        self.view.outputText.setText(self.model.encrypt(self.view.inputText.toPlainText()))
