@@ -9,6 +9,7 @@ class CaesarCipherController:
         self.model = model
         self.background_color = None
         self._connect_signals()
+        self.view.cipherDisk.set_shift(self.model.shift)
 
     def _connect_signals(self):
         self.view.encryptButton.clicked.connect(self.encrypt)
@@ -74,3 +75,4 @@ class CaesarCipherController:
         if dialog.exec():
             shift, direction = dialog.get_settings()
             self.model.set_parameters(shift, direction)
+            self.view.cipherDisk.set_shift(shift)

@@ -5,46 +5,54 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QAction
 
+from disk_widget import CipherDiskWidget
+
+
 class CaesarCipherView(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Шифр Цезаря")
 
-        # Текстовые поля
-        self.inputText = QTextEdit()
-        self.outputText = QTextEdit()
-        self.outputText.setReadOnly(True)
-
-        # Кнопки
-        self.encryptButton = QPushButton("Зашифровать")
-        self.decryptButton = QPushButton("Дешифровать")
-
         # Меню
-        self.menuBar = QMenuBar(self)
-        self.fileMenu = QMenu("Файл", self)
-        self.optionsMenu = QMenu("Опции", self)
+        self.menuBar = QMenuBar()
+        self.fileMenu = QMenu("Файл")
+        self.optionsMenu = QMenu("Опции")
 
-        self.loadAction = QAction("Открыть файл", self)
-        self.saveAction = QAction("Сохранить в файл", self)
-        self.exitAction = QAction("Выход", self)
-        self.fileMenu.addActions([self.loadAction, self.saveAction, self.exitAction])
+        self.loadAction = QAction("Открыть")
+        self.saveAction = QAction("Сохранить")
+        self.exitAction = QAction("Выход")
+        self.fileMenu.addAction(self.loadAction)
+        self.fileMenu.addAction(self.saveAction)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.exitAction)
 
-        self.settingsAction = QAction("Настройки шифра", self)
-        self.colorAction = QAction("Цвет фона", self)
-        self.optionsMenu.addActions([self.settingsAction, self.colorAction])
+        self.settingsAction = QAction("Настройки шифра")
+        self.colorAction = QAction("Цвет фона")
+        self.optionsMenu.addAction(self.settingsAction)
+        self.optionsMenu.addAction(self.colorAction)
 
         self.menuBar.addMenu(self.fileMenu)
         self.menuBar.addMenu(self.optionsMenu)
 
-        # Основной макет
-        layout = QVBoxLayout(self)
-        layout.setMenuBar(self.menuBar)
-        layout.addWidget(QLabel("Обычный текст:"))
-        layout.addWidget(self.inputText)
-        layout.addWidget(QLabel("Результат:"))
-        layout.addWidget(self.outputText)
+        # Основные элементы
+        self.inputText = QTextEdit()
+        self.outputText = QTextEdit()
+        self.outputText.setReadOnly(True)
+        self.encryptButton = QPushButton("Зашифровать")
+        self.decryptButton = QPushButton("Дешифровать")
 
-        buttonsLayout = QHBoxLayout()
-        buttonsLayout.addWidget(self.encryptButton)
-        buttonsLayout.addWidget(self.decryptButton)
-        layout.addLayout(buttonsLayout)
+        self.cipherDisk = CipherDiskWidget()  # 👈 Добавляем круг
+
+        # Макеты
+        buttonLayout = QHBoxLayout()
+        buttonLayout.addWidget(self.encryptButton)
+        buttonLayout.addWidget(self.decryptButton)
+
+        layout = QVBoxLayout()
+        layout.setMenuBar(self.menuBar)
+        layout.addWidget(self.inputText)
+        layout.addWidget(self.outputText)
+        layout.addLayout(buttonLayout)
+        layout.addWidget(self.cipherDisk)
+
+        self.setLayout(layout)
